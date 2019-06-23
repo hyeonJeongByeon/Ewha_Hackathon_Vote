@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>팀플 만날 시간 투표하기~!</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td><B>번호</B></td>
+            <td><B>시간</B></td>
+            <td><B>설명</B></td>
+            <td><B>위치</B></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for candidate in candidates %}
+        <tr>
+            <td>{{candidate.party_number}}번</td>
+            <td>{{candidate.name}}</td>
+            <td>{{candidate.introduction}}</td>
+            <td><a href= "areas/{{candidate.area}}/">
+            {{candidate.area}}</a></td>
+            
+        </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+</body>
+
