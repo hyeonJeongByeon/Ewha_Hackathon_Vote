@@ -12,6 +12,7 @@
 <div class="container">
 <h1>{{area}}</h1>
 <br>
+{% if poll %}
     <table class="table table-striped">
         <thead>
         <tr>
@@ -28,8 +29,12 @@
             <td> {{ candidate.introduction }} </td>
             <td> 번호{{ candidate.party_number }}번 </td>
             <td>
-                <form action = "#" method="post">
-                    <button name="choice" value="#">가능!</button>
+                <form action = "/polls/{{poll.id}}/" method="post">
+                
+                {% csrf_token %}
+
+                    <button name="choice" value="{{candidate.id}}">가능!</button>
+                                       
                 </form>
             </td>
         </tr>
@@ -37,7 +42,7 @@
         </tbody>
     </table>
 {% else %}
-여론조사가 없습니다
+가능한 투표가 없습니다.
 {% endif %}
 </div>
 </body>

@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
- 
+from django.http import HttpResponseRedirect
 from .models import Candidate, Poll, Choice
 import datetime
+from django.db.models import Sum
  
 # Create your views here.
 def index(request):
@@ -39,4 +40,35 @@ def polls(request, poll_id):
         choice = Choice(poll_id = poll.id, candidate_id = selection, votes = 1)
         choice.save()
  
-    return HttpResponse("finish")
+    #return HttpResponse("finish")
+    return HttpResponseRedirect("/areas/{}/results".format(poll.area))
+ 
+def results(request, area):
+    candidates = Candidate.objects.filter(area = area)
+    polls = Poll.objects.filter(area = area)
+    poll_results = []
+    
+    for poll in polls:
+        result = {}
+        result['start_date'] = poll.start_date
+        result['end_date'] = poll.end_date
+ 
+        ##==poll.id에 해당하는 투표수 출력==##
+        total_votes = Choice.objects.filter(poll_id = poll.id).aggregate(Sum('votes'))
+        #초이스에서 투표에 해당하는 초이스를 가져와서 모두 더해준다
+        result['total_votes'] = total_votes['votes__sum']
+ 
+        rates=[] #지지율
+        for candidate in candidates:
+            try:
+                choice = Choice.objects.get(poll_id = poll.id,
+                    candidate_id = candidate.id)
+                rates.append(round(choice.votes * 100 / result['total_votes'], 1))
+            except:#투표를 하나도 못받았을 경우. choice=0일때
+                rates.append(0)
+        result['rates'] = rates #result안에 rates라는 키로 rates값을 넣음
+        poll_results.append(result)
+ 
+    context = {'candidates': candidates, 'area':area,
+     'poll_results': poll_results}
+    return render(request, 'elections/result.html', context)

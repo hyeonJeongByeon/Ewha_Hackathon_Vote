@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>팀플 만날 시간 투표하기~!</title>
+  <title>팀플 만날 시간 투표</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -16,7 +16,7 @@
             <td><B>번호</B></td>
             <td><B>시간</B></td>
             <td><B>설명</B></td>
-            <td><B>위치</B></td>
+            <td><B>장소</B></td>
         </tr>
         </thead>
         <tbody>
@@ -27,10 +27,8 @@
             <td>{{candidate.introduction}}</td>
             <td><a href= "areas/{{candidate.area}}/">
             {{candidate.area}}</a></td>
-            
         </tr>
         {% endfor %}
         <tbody>
     </table>
 </body>
-
